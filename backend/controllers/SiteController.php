@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Pages;
 use common\models\LoginForm;
 use Yii;
 use yii\filters\VerbFilter;
@@ -21,21 +22,21 @@ class SiteController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'actions' => ['login', 'error'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index', 'page'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
                 ],
@@ -100,5 +101,26 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+    /**
+     * Displays static page.
+     *
+     * @return mixed
+     */
+    public function actionPage()
+    {
+        $view = Yii::$app->request->get('view');
+
+        if (empty($view)) {
+            $this->actionIndex();
+        }
+
+        $model = (new Pages)->findByUrl($view)->one();
+        if ($model === null) {
+            Yii::$app->runAction($view);
+        } else
+            return $this->render('pages/page', [
+                'model' => $model
+            ]);
     }
 }
