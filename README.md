@@ -2,7 +2,7 @@
 
 Редактирование всего контента и добавление новых страниц доступно по ссылке "Редактировать" в шапке страницы, если вы залогинены (admin/11111111).
 
-Рабочий проект здесь: https://pages.saviv.website/
+Рабочий проект здесь: https://pages.saviv.site/
 
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
